@@ -1,8 +1,8 @@
 # README #
 
 This is a Simple Drupal 8 Theme using Foundation 6 with the Classy Theme as a base.
-[Flex Grid Documentation](http://foundation.zurb.com/sites/docs/flex-grid.html)
-[Navbar Docs](http://foundation.zurb.com/sites/docs/top-bar.html)
+* [Flex Grid Documentation](http://foundation.zurb.com/sites/docs/flex-grid.html)
+* [Navbar Docs](http://foundation.zurb.com/sites/docs/top-bar.html)
 
 
 ## Foundation 6 Drupal 8 Theme ##
@@ -296,7 +296,7 @@ A slightly-larger-than-normal block of text, useful for decks, blurbs, or other 
 
 ### Un-bulleted List ###
 
-In Foundation, the <ul> is a bulleted list and <ol> is a numbered list by default, but you can add the class `.no-bullet` to remove the bullets and numbers respectively.
+In Foundation, the `<ul>` is a bulleted list and `<ol>` is a numbered list by default, but you can add the class `.no-bullet` to remove the bullets and numbers respectively.
 
 ```HTML
 <ul class="no-bullet">
