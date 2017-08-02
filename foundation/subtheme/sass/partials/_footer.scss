@@ -1,0 +1,76 @@
+/* Footer */
+  .footer{background-color: $first; color: $third; padding: 50px 0 50px 0;
+    .menu{ padding: 30px;
+      ul{margin: 0px; list-style: none; margin-bottom: 20px;}
+    }
+    .ft-email {margin-bottom: 30px;}
+    a{color: $third; text-decoration: none; padding: 0px; font-weight: 700; letter-spacing: 1px;}
+    a:hover{color: $fourth;}
+
+    .footer-social-links{ text-align: center;
+      ul{ list-style: none; margin: 0px;
+        li{ display: inline-block; margin-right: 10px; margin-bottom: 10px;
+          a{
+            img{width: 40px;}
+          }
+        }
+        li:first-child{
+          a{
+            img:first-child{height: 40px; width: 50px;}
+          }
+        }
+      }
+      p{font-size: 12px;}
+    }
+  }
+
+  /* ===== == = === 30em (480px) Small === = == ===== */
+@media only screen and (min-width : 30em){
+
+}
+
+/* ===== == = === 48em (768px) Medium === = == ===== */
+@media only screen and (min-width : 48em){
+  .footer{
+    .footer-social-links{ text-align: right;
+      ul li a img{margin-bottom: 10px;}
+    }
+  }
+  .ft-phone, .ft-email {
+    p {font-size: 1rem;}
+    strong {font-size: 1.25rem;}
+  }
+}
+
+/* ===== == = === 62em (992px) Large === = == ===== */
+@media only screen and (min-width : 62em){
+  .footer-social-links{
+    ul{
+      li{
+        a{
+          img{width: 30px;}
+        }
+      }
+      li:first-child{
+        a{
+          img:first-child{height: 30px; width: 40px;}
+        }
+      }
+    }
+  }
+}
+
+/* ===== == = === 75em (1200px) XLarge === = == ===== */
+@media only screen and (min-width : 75em){
+  .ft-phone, .ft-email {
+    p {font-size: 1.25rem;}
+  }
+}
+/* ===== == = === 90em (1440px) XXLarge === = == ===== */
+@media only screen and (min-width : 90em){
+
+}
+/* ===== == = === 105em (1680px) XXXLarge === = == ===== */
+@media screen and (min-width: 105em){
+
+}

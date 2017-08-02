@@ -1,0 +1,44 @@
+{% include directory ~ '/includes/header.html.twig' %}
+
+{% if messages %}
+<div class="row">
+  <div class="small-12 columns">
+    {{ messages }}
+  </div>
+</div>
+{% endif %}
+
+{% if page.help %}
+<div class="help row">
+  <div class="small-12 columns">
+    {{ page.help }}
+  </div>
+</div>
+{% endif %}
+
+<div class="row">
+  <main id="main" class="{{ main_grid }} columns" role="main">
+    {% if page.highlighted %}
+      {% spaceless %}
+        {{ page.highlighted }}
+      {% endspaceless %}
+    {% endif %}
+    <a id="main-content"></a>
+    {% if breadcrumb %} {{ breadcrumb }} {% endif %}
+    <section>
+      {{ page.content }}
+    </section>
+  </main>
+  {% if page.sidebar_first %}
+    <aside id="sidebar-first" class="{{ sidebar_first_grid }} columns sidebar" role="complementary">
+      {{ page.sidebar_first }}
+    </aside>
+  {% endif %}
+  {% if page.sidebar_second %}
+    <aside id="sidebar-second" class="{{ sidebar_sec_grid }} columns sidebar" role="complementary">
+      {{ page.sidebar_second }}
+    </aside>
+  {% endif %}
+</div>
+
+{% include directory ~ '/includes/footer.html.twig' %}

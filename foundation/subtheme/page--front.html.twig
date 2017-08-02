@@ -1,0 +1,34 @@
+{% include directory ~ '/includes/header.html.twig' %}
+
+{% if featured %}
+<section class="featured">
+<div class="row">
+  <div class="small-12 columns">
+    {{ featured }}
+  </div>
+</div>
+{% endif %}
+
+{% if messages %}
+<div class="row">
+  <div class="small-12 columns">
+    {{ messages }}
+  </div>
+</div>
+{% endif %}
+
+<section class="main">
+<div class="row">
+  <main id="main" class="{{ main_grid }} columns" role="main">
+    {% if page.highlighted %}
+      {% spaceless %}
+        {{ page.highlighted }}
+      {% endspaceless %}
+    {% endif %}
+    <a id="main-content"></a>
+      {{ page.content }}
+  </main>
+</div>
+</section>
+
+{% include directory ~ '/includes/footer.html.twig' %}

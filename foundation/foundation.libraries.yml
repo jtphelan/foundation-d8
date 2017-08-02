@@ -1,0 +1,12 @@
+global-styling:
+  version: VERSION
+  css:
+    theme:
+      css/foundation.css: {}
+      css/app.css: {}
+  js:
+    js/what-input.js: {}
+    js/foundation.min.js: {}
+    js/app.js: {}
+  dependencies:
+    - core/jquery

@@ -1,0 +1,281 @@
+<?php 
+  
+use Drupal\node\Entity\Node;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Link;
+
+function foundation_preprocess_page(&$variables) {
+  if(isset($variables['node'])) {
+    $variables['title'] = $variables['node']->title->value;
+    $variables['node_class'] = 'nodetype-' . $variables['node']->getType();
+  }
+  else{
+    $variables['title'] = $variables['page']['#title'];
+  }
+  
+  $site_name = isset($variables['site_name']) ? $variables['site_name'] : \Drupal::config('system.site')->get('name');
+  $variables['site_name'] = $site_name;
+  
+  // Convenience variables
+  if (isset($variables['page']['sidebar_first'])) {
+    $left = $variables['page']['sidebar_first'];
+  }
+  if (isset($variables['page']['sidebar_second'])) {
+    $right = $variables['page']['sidebar_second'];
+  }
+
+  // Dynamic sidebars
+  if (!empty($left) && !empty($right)) {
+    $variables['main_grid'] = 'small-12 medium-expand medium-order-2';
+    $variables['sidebar_first_grid'] = 'small-12 medium-3 medium-order-1';
+    $variables['sidebar_sec_grid'] = 'small-12 medium-3';
+  }
+  elseif (empty($left) && !empty($right)) {
+    $variables['main_grid'] = '';
+    $variables['sidebar_first_grid'] = '';
+    $variables['sidebar_sec_grid'] = 'small-12 medium-3';
+  }
+  elseif (!empty($left) && empty($right)) {
+    $variables['main_grid'] = 'small-12 medium-expand medium-order-2';
+    $variables['sidebar_first_grid'] = 'small-12 medium-3 medium-order-1';
+    $variables['sidebar_sec_grid'] = '';
+  }
+  else {
+    $variables['main_grid'] = '';
+    $variables['sidebar_first_grid'] = '';
+    $variables['sidebar_sec_grid'] = '';
+  }
+}
+
+function foundation_preprocess_block(&$variables) {
+  $variables['edit_block'] = FALSE;
+  if($variables['configuration']['provider'] == 'block_content') {
+    $user = \Drupal::currentUser();
+    if($user->hasPermission('access content overview')) {
+      $variables['attributes']['class'][] = 'editable-block';
+      $variables['edit_block'] = TRUE;
+      $variables['content_block_id'] = $variables['content']['#block_content']->id();
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_field().
+ */
+function foundation_preprocess_field(&$variables) {
+  if (!isset($variables['title_attributes']['class'])) {
+    $variables['title_attributes']['class'] = array();
+  }
+  if (!isset($variables['content_attributes']['class'])) {
+    $variables['content_attributes']['class'] = array();
+  }
+  $variables['title_attributes']['class'][] = 'field-label';
+
+  // Convenience variables
+  $mode = $variables['element']['#view_mode'];
+  $classes = &$variables['attributes']['class'];
+  $content_classes = &$variables['content_attributes']['class'];
+  $item_classes = array();
+
+  // Global field classes
+  $classes[] = 'field-wrapper';
+  $content_classes[] = 'field-items';
+  $item_classes[] = 'field-item';
+
+  // Add specific classes to targeted fields
+  if(isset($field)) {
+    switch ($mode) {
+      // All teasers
+      case 'teaser':
+        switch ($field) {
+          // Teaser read more links
+          case 'node_link':
+            $item_classes[] = 'more-link';
+            break;
+          // Teaser descriptions
+          case 'body':
+          case 'field_description':
+            $item_classes[] = 'description';
+            break;
+        }
+      break;
+    }
+  }
+
+  // Apply odd or even classes along with our custom classes to each item
+  foreach ($variables['items'] as $delta => $item) {
+    $item_classes[] = $delta % 2 ? 'odd' : 'even';
+    $variables['item_attributes'][$delta]['class'] = $item_classes;
+  }
+
+  // Add class to a specific fields across content types.
+  switch ($variables['element']['#field_name']) {
+    case 'body':
+      $classes = array('body');
+      break;
+
+    case 'field_summary':
+      $classes[] = 'text-teaser';
+      break;
+
+    case 'field_link':
+    case 'field_date':
+      // Replace classes entirely, instead of adding extra.
+    $classes = array('text-content');
+      break;
+
+    case 'field_image':
+      // Replace classes entirely, instead of adding extra.
+      $classes = array('image');
+      break;
+
+    default:
+      break;
+  }
+
+  // Add classes to body based on content type and view mode.
+  if ($variables['element']['#field_name'] == 'body') {
+    // Add classes to other content types with view mode 'teaser';
+    if ($variables['element']['#view_mode'] == 'teaser') {
+      $classes[] = 'text-secondary';
+    }
+    // The rest is text-content.
+    else {
+      $classes[] = 'field';
+    }
+  }
+}
+
+/**
+ * Implements template_preprocess_node
+ *
+ * Add template suggestions and classes
+ */
+function foundation_preprocess_node(&$variables) {
+  // Add node--node_type--view_mode.html.twig suggestions
+  $variables['theme_hook_suggestions'][] = 'node__' . $variables['elements']['#node']->bundle() . '__' . $variables['view_mode'];
+
+  // Add a class for the view mode.
+  if (!$variables['teaser']) {
+    $variables['content_attributes']['class'][] = 'view-mode-' . $variables['view_mode'];
+  }
+
+  $variables['title_attributes']['class'][] = 'node-title';
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ */
+function foundation_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    if (is_numeric($node)) {
+      $node = Node::load($node);
+    }
+    if ($node instanceof NodeInterface) {
+      array_splice($suggestions, 1, 0, 'page__node__' . $node->bundle());
+    }
+  }
+}
+
+/**
+ * Implements theme_preprocess_menu().
+ */
+function foundation_preprocess_menu(&$variables) {
+  $variables['attributes']['class'][] = 'menu';
+}
+
+/**
+ * Implements hook_form_alter().
+ * @param $form
+ * @param $form_state
+ * @param $form_id
+ */
+function foundation_form_alter(&$form, &$form_state, $form_id) {
+  // Sexy submit buttons
+  if (!empty($form['actions']) && !empty($form['actions']['submit'])) {
+    $form['actions']['submit']['#attributes']['class'][] = 'primary';
+    $form['actions']['submit']['#attributes']['class'][] = 'button';
+    $form['actions']['submit']['#attributes']['class'][] = 'radius';
+  }
+}
+
+/**
+ * @file
+ * Override drupal core messages with Zurb Foundation alert-box messages.
+ * Customize the colors within the _settings.scss file.
+ *
+ */
+function zurb_foundation_status_messages($variables) {
+  $display = $variables['message_list'];
+  $output = '';
+
+  $status_heading = array(
+    'error' => t('Error message'),
+    'status' => t('Status message'),
+    'warning' => t('Warning message'),
+    'info' => t('Info message'),
+  );
+
+  $status_mapping = array(
+    'error' => 'times-circle',
+    'status' => 'check-circle',
+    'warning' => 'exclamation-triangle',
+    'info' => 'info-circle',
+  );
+
+  foreach ($display as $type => $messages) {
+    if (isset($status_mapping[$type])) {
+      $output .= "<div class=\"messages $type\"> <i class=\"fa fa-$status_mapping[$type] fa-lg\" aria-hidden=\"true\"></i>\n";
+    }
+    else {
+      $output .= "<div class=\"messages\">\n";
+    }
+
+    if (!empty($status_heading[$type])) {
+      $output .= '<h2 class="visually-hidden">' . $status_heading[$type] . "</h2>\n";
+    }
+
+    if (count($messages) > 1) {
+      foreach ($messages as $message) {
+        $output .= '<p>' . $message . '</p>';
+      }
+    }
+    else {
+      $output .= $messages[0];
+    }
+
+    $output .= "</div>\n";
+  }
+
+
+  $output = array(
+    '#markup' => $output,
+    '#attached' => array(
+      'library' => array(
+        $library
+      ),
+    ),
+    '#allowed_tags' => ['div', 'button', 'a', 'span', 'h2', 'p', 'i'],
+  );
+  $output = render($output);
+
+  return $output;
+}
+
+
+/**
+ * Implements hook_css_alter().
+ * @param $css
+ */
+/*
+function foundation_css_alter(&$css) {
+  // Remove base theme CSS.
+  $theme_path = drupal_get_path('theme', 'foundation');
+
+  foreach($css as $path => $values) {
+    if(strpos((string) $values['data'], $theme_path) === 0) {
+      unset($css[$path]);
+    }
+  }
+}
+*/

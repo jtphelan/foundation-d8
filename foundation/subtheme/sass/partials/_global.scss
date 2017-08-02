@@ -1,0 +1,28 @@
+/* -- GLOBAL VARIABLES -- */
+
+/* -- Fonts -- */
+$main: "Helvetica", "Arial", "sans-serif";
+$title: "Helvetica", "Arial", "sans-serif";
+// "Helvetica" 400/700
+
+/* Colors */
+$primary: #003368; // Lighter Blue
+$secondary: #021931; // Darker Blue
+$third: #FFFFFF; // White
+$gray: #9B9B9B;// Gray
+$light-gray: #E9E9E9; // Light Gray
+$dark-gray: #4A4A4A; // Font Color
+
+body { background-color: #fff; padding: 0; color: $dark-gray; font-family: $main; }
+
+/* Tab navigation */
+nav.tabs ul { border-bottom:1px solid $primary; }
+nav.tabs ul li a { margin-right:2px; padding:0 20px; }
+nav.tabs ul li a.is-active, nav.tabs ul li a.is-active:hover { border:1px solid $primary; border-bottom-color:#fff; background-color:transparent; color: $primary; }
+nav.tabs ul li a:hover { background-color:$secondary; border-bottom:1px solid $secondary; color: #fff; }
+
+/* Buttons */
+.button.primary { background-color: $primary; color: #fff; }
+.button.primary:hover, .button.primary:focus { background-color: $secondary; }
+.button.secondary { background-color: $secondary; color: #fff; }
+.button.secondary:hover, .button.secondary:focus { background-color: $primary; }
