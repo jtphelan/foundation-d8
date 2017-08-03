@@ -4,9 +4,17 @@ global-styling:
     theme:
       css/foundation.css: {}
       css/app.css: {}
+base-addons:
+  version: VERSION
+  css:
+    theme:
+      addons/base/base.drilldown.css: {}
+      addons/base/base.dropdown.css: {}
+      addons/base/base.accordion.css: {}
+      addons/base/base.offcanvas.css: {}
   js:
-    js/what-input.js: {}
-    js/foundation.min.js: {}
-    js/app.js: {}
+    addons/base/js/what-input.js: {}
+    addons/base/js/foundation.min.js: {}
+    addons/base/js/app.js: {}
   dependencies:
     - core/jquery

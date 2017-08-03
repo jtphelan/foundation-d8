@@ -25,3 +25,4 @@ regions:
 
 libraries:
   - foundation/global-styling
+  - foundation/base-addons
