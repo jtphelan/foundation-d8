@@ -3,7 +3,7 @@ type: theme
 base theme: classy
 description: Blackwood Drupal 8 Foundation 6 Theme
 package: Core
-version: 1.0
+version: 6.0
 core: 8.x
 engine: twig
 screenshot: screenshot.png
@@ -26,3 +26,4 @@ regions:
 libraries:
   - foundation/global-styling
   - foundation/base-addons
+  - foundation/font-awesome

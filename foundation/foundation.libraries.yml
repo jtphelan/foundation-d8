@@ -18,3 +18,13 @@ base-addons:
     addons/base/js/app.js: {}
   dependencies:
     - core/jquery
+font-awesome:
+  remote: https://fortawesome.github.io/Font-Awesome/
+  version: 4.7.0
+  license:
+    name: MIT
+    url: https://fortawesome.github.io/Font-Awesome/license/
+    gpl-compatible: true
+  css:
+    theme:
+      https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css: { type: external, minified: true }
