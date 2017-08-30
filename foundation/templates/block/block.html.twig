@@ -38,7 +38,9 @@
   {% if content_attributes|length %}
   <div {{ content_attributes }}>
     {% endif %}
-
+    {% if edit_block %}
+      <a href="/block/{{ content_block_id }}" class="block-edit"><i class="fa fa-pencil" aria-hidden="true"></i> edit</a>
+    {% endif %}
     {% block content %}
       {{ content }}
     {% endblock %}

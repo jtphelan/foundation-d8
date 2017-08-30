@@ -36,3 +36,7 @@
 .messages.warning a, .messages.warning a:visited { color: #baa40c;}
 
 ul.menu { margin-left: 0; }
+
+.editable-block { position:relative; }
+a.block-edit, a.block-edit:visited { position:absolute; top: -5px; right: -5px; z-index: 999; display:block; padding: 5px; font-size: .875rem;  background: #fff; border: 1px solid #000; border-radius: 3px; color: #000; text-decoration: none; text-transform: uppercase; }
+a.block-edit:hover { color: #000; background: #f7f7f7; }
