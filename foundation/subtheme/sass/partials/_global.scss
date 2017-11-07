@@ -17,7 +17,7 @@ body { background-color: #fff; padding: 0; color: $dark-gray; font-family: $main
 
 /* Tab navigation */
 nav.tabs ul { border-bottom:1px solid $primary; }
-nav.tabs ul li a { margin-right:2px; padding:0 20px; }
+nav.tabs ul li a { margin-right:2px; padding:0 20px; color: $primary; }
 nav.tabs ul li a.is-active, nav.tabs ul li a.is-active:hover { border:1px solid $primary; border-bottom-color:#fff; background-color:transparent; color: $primary; }
 nav.tabs ul li a:hover { background-color:$secondary; border-bottom:1px solid $secondary; color: #fff; }
 
@@ -26,3 +26,11 @@ nav.tabs ul li a:hover { background-color:$secondary; border-bottom:1px solid $s
 .button.primary:hover, .button.primary:focus { background-color: $secondary; }
 .button.secondary { background-color: $secondary; color: #fff; }
 .button.secondary:hover, .button.secondary:focus { background-color: $primary; }
+.button.hollow.primary{background-color: $third; color: $primary; border: 1px solid $primary; }
+
+/* Stacks */
+.color-primary{color: $primary;}
+.color-secondary{color: $secondary;}
+.color-success{color: $success;}
+.color-alert{color: $alert;}
+.color-warning{color: $warning;}
