@@ -1,26 +1,28 @@
-{% include directory ~ '/includes/header.html.twig' %}
+{% extends 'page.html.twig' %}
+{% block title_section %}{% endblock %}
 
+{% block main %}
 {% if featured %}
-<section class="featured">
-  <div class="row">
-    <div class="small-12 columns">
+<header role="banner" aria-label="{{ 'Site header'|t }}">
+  <div class="grid-x grid-margin-x grid-padding-x">
+    <div class="cell">
       {{ featured }}
     </div>
   </div>
-</section>
+</header>
 {% endif %}
 
 {% if messages %}
-<div class="row">
-  <div class="small-12 columns">
+<div class="grid-x grid-margin-x grid-padding-x">
+  <div class="cell">
     {{ messages }}
   </div>
 </div>
 {% endif %}
 
 <section class="main">
-<div class="row">
-  <main id="main" class="{{ main_grid }} columns" role="main">
+<div class="grid-x grid-margin-x grid-padding-x">
+  <main id="main" class="cell" role="main">
     {% if page.highlighted %}
       {% spaceless %}
         {{ page.highlighted }}
@@ -31,5 +33,4 @@
   </main>
 </div>
 </section>
-
-{% include directory ~ '/includes/footer.html.twig' %}
+{% endblock %}

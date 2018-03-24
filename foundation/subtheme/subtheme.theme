@@ -1,0 +1,36 @@
+<?php
+
+/**
+  * hook_preprocess_page
+  */
+function subtheme_preprocess_page(&$variables) {
+
+  // output mobile menu and themplate suggestion
+  $variables['mobile_menu'] = agape_build_mobile_menu();
+  $variables['mobile_menu']['#theme'] = 'menu__main__mobile';
+}
+
+/**
+  * grab main and account menus and output them for the mobile menu
+  */
+function subtheme_build_mobile_menu() {
+  // Build Main Menu
+  $menu_tree = \Drupal::service('menu.link_tree');
+  $parameters = new \Drupal\Core\Menu\MenuTreeParameters();
+  $parameters
+    ->setMaxDepth(3)
+    ->onlyEnabledLinks()
+    ->excludeRoot();
+  $tree = $menu_tree->load('main', $parameters);
+  // add top level user menu
+  $user_tree = $menu_tree->load('user', $parameters);
+  $tree = $tree + $user_tree;
+  $manipulators = array(
+    array('callable' => 'menu.default_tree_manipulators:checkAccess'),
+    array('callable' => 'menu.default_tree_manipulators:generateIndexAndSort'),
+  );
+  $tree = $menu_tree->transform($tree, $manipulators);
+  // Split it into right and left menus
+  return $menu_tree->build($tree);
+
+}

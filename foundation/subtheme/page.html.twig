@@ -1,23 +1,59 @@
-{% include directory ~ '/includes/header.html.twig' %}
+<div id="wrapper" >
+<div class="mp-pusher" id="mp-pusher">
+<nav id="mp-menu" class="mp-menu">
+  <div class="mp-level">
+    <h2>Menu</h2>
+    {{ mobile_menu }}
+  </div>
+</nav>
 
+<nav class="section navigation">
+  <div class="container">
+    <div class="top-bar">
+      <div class="top-bar-left">
+        <a href="/"><img src="{{ base_path ~ directory }}/images/logo.png" alt="{{ site_name }}" /></a>
+      </div><!-- cell -->
+      <div class="top-bar-right">
+        <a href="#" id="menu-trigger"><i class="fa fa-3x fa-bars"></i></a>
+        <nav class="mainnav">
+          {{ page.header }}
+        </nav><!-- sidr-main -->
+      </div><!-- cell -->
+    </div><!-- row -->
+  </div><!-- container -->
+</nav><!-- section -->
+
+{% block title_section %}
+<div class="section page-title">
+  <div class="container">
+    <div class="grid-x grid-margin-x grid-padding-x">
+      <div class="cell">
+        <h1>{{ title }}</h1>
+      </div><!-- column -->
+    </div><!-- row -->
+  </div><!-- container -->
+</div><!-- section -->
+{% endblock %}
+
+{% block main %}
 {% if messages %}
-<div class="row">
-  <div class="small-12 columns">
+<div class="grid-x grid-margin-x grid-padding-x">
+  <div class="cell">
     {{ messages }}
   </div>
 </div>
 {% endif %}
 
 {% if page.help %}
-<div class="help row">
-  <div class="small-12 columns">
+<div class="help grid-x grid-margin-x grid-padding-x">
+  <div class="cell">
     {{ page.help }}
   </div>
 </div>
 {% endif %}
 
-<div class="row">
-  <main id="main" class="{{ main_grid }} columns" role="main">
+<div class="grid-x grid-margin-x grid-padding-x">
+  <main id="main" class="{{ main_grid }} cell" role="main">
     {% if page.highlighted %}
       {% spaceless %}
         {{ page.highlighted }}
@@ -30,15 +66,25 @@
     </section>
   </main>
   {% if page.sidebar_first %}
-    <aside id="sidebar-first" class="{{ sidebar_first_grid }} columns sidebar" role="complementary">
+    <aside id="sidebar-first" class="{{ sidebar_first_grid }} cell sidebar" role="complementary">
       {{ page.sidebar_first }}
     </aside>
   {% endif %}
   {% if page.sidebar_second %}
-    <aside id="sidebar-second" class="{{ sidebar_sec_grid }} columns sidebar" role="complementary">
+    <aside id="sidebar-second" class="{{ sidebar_sec_grid }} cell sidebar" role="complementary">
       {{ page.sidebar_second }}
     </aside>
   {% endif %}
 </div>
+{% endblock %}
 
-{% include directory ~ '/includes/footer.html.twig' %}
+{% if page.footer %}
+  <footer class="grid-x grid-margin-x grid-padding-x">
+      <div class="cell">
+        {{ page.footer }}
+      </div>
+  </footer>
+{% endif %}
+
+</div>
+</div><!-- End of wrapper -->

@@ -5,3 +5,13 @@ global-styling:
       css/style.css: {}
   js:
     js/sub-common.js: {}
+mlpushmenu:
+  version: 1.0
+  css:
+    theme:
+      css/mlpushmenu.css: {}
+  js:
+    js/modernizr.custom.js: {}
+    js/classie.js: {}
+    js/mlpushmenu.js: {}
+    js/mobile.menu.js: {}

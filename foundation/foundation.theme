@@ -26,18 +26,18 @@ function foundation_preprocess_page(&$variables) {
 
   // Dynamic sidebars
   if (!empty($left) && !empty($right)) {
-    $variables['main_grid'] = 'small-12 medium-expand medium-order-2';
-    $variables['sidebar_first_grid'] = 'small-12 medium-3 medium-order-1';
-    $variables['sidebar_sec_grid'] = 'small-12 medium-3';
+    $variables['main_grid'] = 'auto medium-order-2';
+    $variables['sidebar_first_grid'] = 'shrink medium-order-1';
+    $variables['sidebar_sec_grid'] = 'shrink medium-3';
   }
   elseif (empty($left) && !empty($right)) {
-    $variables['main_grid'] = '';
+    $variables['main_grid'] = 'auto';
     $variables['sidebar_first_grid'] = '';
-    $variables['sidebar_sec_grid'] = 'small-12 medium-3';
+    $variables['sidebar_sec_grid'] = 'shrink';
   }
   elseif (!empty($left) && empty($right)) {
-    $variables['main_grid'] = 'small-12 medium-expand medium-order-2';
-    $variables['sidebar_first_grid'] = 'small-12 medium-3 medium-order-1';
+    $variables['main_grid'] = 'auto medium-order-2';
+    $variables['sidebar_first_grid'] = 'shrink medium-order-1';
     $variables['sidebar_sec_grid'] = '';
   }
   else {
@@ -205,7 +205,7 @@ function foundation_form_alter(&$form, &$form_state, $form_id) {
  * Customize the colors within the _settings.scss file.
  *
  */
-function zurb_foundation_status_messages($variables) {
+function foundation_status_messages($variables) {
   $display = $variables['message_list'];
   $output = '';
 
@@ -217,7 +217,7 @@ function zurb_foundation_status_messages($variables) {
   );
 
   $status_mapping = array(
-    'error' => 'times-circle',
+    'error' => 'exclamation-circle',
     'status' => 'check-circle',
     'warning' => 'exclamation-triangle',
     'info' => 'info-circle',
@@ -225,7 +225,7 @@ function zurb_foundation_status_messages($variables) {
 
   foreach ($display as $type => $messages) {
     if (isset($status_mapping[$type])) {
-      $output .= "<div class=\"messages $type\"> <i class=\"fa fa-$status_mapping[$type] fa-lg\" aria-hidden=\"true\"></i>\n";
+      $output .= "<div class=\"messages $type\"> <i class=\"fas fa-$status_mapping[$type] fa-lg\" aria-hidden=\"true\"></i>\n";
     }
     else {
       $output .= "<div class=\"messages\">\n";

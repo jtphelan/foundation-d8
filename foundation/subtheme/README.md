@@ -12,47 +12,67 @@ This is a Simple Drupal 8 Theme using Foundation 6 with the Classy Theme as a ba
 
 ### Basics ###
 
-The structure of the flex grid is identical to that of the float grid. Rows use the class .row, and columns use the class .column (or .columns). Basic percentage-based sizing can also be done using the same grid classes you're used to: .small-6, .medium-12, and so on.
+The structure of XY grid uses `.grid-x`, `.grid-y`, and `.cell` as its base. Without defining a gutter type the cells will simply split up the space without any gutters.
 
 ```HTML
-<div class="row">
-  <div class="small-6 columns">6 columns</div>
-  <div class="small-6 columns">6 columns</div>
+<div class="grid-x">
+  <div class="cell">full width cell</div>
+  <div class="cell">full width cell</div>
 </div>
-<div class="row">
-  <div class="medium-6 large-4 columns">12/6/4 columns</div>
-  <div class="medium-6 large-8 columns">12/6/8 columns</div>
+<div class="grid-x">
+  <div class="cell small-6">6 cells</div>
+  <div class="cell small-6">6 cells</div>
+</div>
+<div class="grid-x">
+  <div class="cell medium-6 large-4">12/6/4 cells</div>
+  <div class="cell medium-6 large-8">12/6/8 cells</div>
 </div>
 ```
 
-### Advanced Sizing ###
+### Gutters ###
 
-If no sizing class is added to the column, it will simply expand to fill the leftover space. We call this an expand behavior.
-A column can also be made to shrink, by adding the .shrink class. This means it will only take up the horizontal space its contents need.
+The defining feature of the XY grid is the ability to use margin AND padding grids in harmony. To define a grid type, simply set `.grid-margin-x` or `.grid-padding-x` on the grid.
 
 ```HTML
-<div class="row">
-  <div class="small-4 columns">4 columns</div>
-  <div class="columns">Whatever's left!</div>
+<div class="grid-x grid-margin-x">
+  <div class="cell medium-6 large-4">12/6/4 cells</div>
+  <div class="cell medium-6 large-8">12/6/8 cells</div>
 </div>
+<div class="grid-x grid-padding-x">
+  <div class="cell medium-6 large-4">12/6/4 cells</div>
+  <div class="cell medium-6 large-8">12/6/8 cells</div>
+</div>
+```
 
-<div class="row">
-  <div class="shrink columns">Shrink!</div>
-  <div class="columns">Expand!</div>
+### Auto Sizing ###
+
+If the class `.auto` or `.[size]-auto` is added to the cell, it will take up the remaining space. Multiple expanding cells will share the leftover space equally. A cell can also be made to shrink, by adding the `.shrink` or `.[size]-shrink` class. This means it will only take up the space its contents need.
+
+```HTML
+<div class="grid-x grid-margin-x">
+  <div class="cell small-4">4 cells</div>
+  <div class="cell auto">Whatever's left!</div>
+</div>
+<div class="grid-x grid-margin-x">
+  <div class="cell small-4">4 cells</div>
+  <div class="cell auto">Whatever's left!</div>
+  <div class="cell auto">Whatever's left!</div>
+</div>
+<div class="grid-x grid-margin-x">
+  <div class="cell shrink">Shrink!</div>
+  <div class="cell auto">Expand!</div>
 </div>
 ```
 
 ### Responsive Adjustments ###
 
-Columns in a flex grid will not wrap if not given an explicit size—this is what allows the magical auto-sizing to work. To make columns stack on smaller screens, add the class .small-12 manually.
-
-To switch back to the expand behavior from a percentage or shrink behavior, use the classes .medium-expand or .large-expand. In the below example, the columns stack on small screens, and become even-width on large screens.
+To switch back to the auto behavior from a percentage or shrink behavior, use the classes `.[size]-auto` or `.[size]-shrink`. In the below example, the cells stack on small screens, and become even-width on large screens.
 
 ```HTML
-<div class="row">
-  <div class="small-12 large-expand columns">One</div>
-  <div class="small-12 large-expand columns">Two</div>
-  <div class="small-12 large-expand columns">Three</div>
+<div class="grid-x">
+  <div class="cell large-auto">One</div>
+  <div class="cell large-auto">Two</div>
+  <div class="cell large-auto">Three</div>
 </div>
 ```
 
@@ -70,97 +90,120 @@ We have a few shorthand classes for the above behavior. Use the .[size]-unstack 
 
 ### Column Alignment ###
 
-Columns in a flex grid can be aligned across the horizontal or vertical axis of their parent row.
+Horizontal alignment classes are applied to flex parents. Left alignment is the default, but you can use one of these classes to change this. You might be wondering what the difference between .align-justify and .align-spaced is. A justified grid (justify-content: space-between) evenly distributes the space between each column. The first and last columns pin to the edge of the grid.
 
-Columns can be aligned the same way you would align text in a paragraph. By default, all columns align to the left (or the right in RTL), but this can be overridden with by adding the .align-[dir] class to the flex row. You might be wondering what the difference between .align-justify and .align-spaced is. A justified grid (justify-content: space-between) evenly distributes the space between each column. The first and last columns pin to the edge of the grid. A spaced grid (justify-content: space-around) evenly distributes the space around each column. This means there will always be space to the left of the first column, and to the right of the last column. The horizontal alignment classes are shorthands for the justify-content CSS property.
+A spaced grid (justify-content: space-around) evenly distributes the space around each column. This means there will always be space to the left of the first column, and to the right of the last column.
+
+The horizontal alignment classes are shorthands for the justify-content CSS property. 
 
 ```HTML
-<div class="row">
-  <div class="column small-4">Aligned to</div>
-  <div class="column small-4">the left</div>
+<div class="grid-x grid-padding-x"> <!-- Aligned to the left -->
+  <div class="cell small-4">Aligned to</div>
+  <div class="cell small-4">the left</div>
 </div>
-<div class="row align-right">
-  <div class="column small-4">Aligned to</div>
-  <div class="column small-4">the right</div>
+<div class="grid-x grid-padding-x align-right"> <!-- Aligned to the right -->
+  <div class="cell small-4">Aligned to</div>
+  <div class="cell small-4">the right</div>
 </div>
-<div class="row align-center">
-  <div class="column small-4">Aligned to</div>
-  <div class="column small-4">the middle</div>
+<div class="grid-x grid-padding-x align-center"> <!-- Aligned to the center -->
+  <div class="cell small-4">Aligned to</div>
+  <div class="cell small-4">the center</div>
 </div>
-<div class="row align-justify">
-  <div class="column small-4">Aligned to</div>
-  <div class="column small-4">the edges</div>
+<div class="grid-x grid-padding-x align-justify"> <!-- Aligned to the edges -->
+  <div class="cell small-4">Aligned to</div>
+  <div class="cell small-4">the edges</div>
 </div>
-<div class="row align-spaced">
-  <div class="column small-4">Aligned to</div>
-  <div class="column small-4">the space around</div>
+<div class="grid-x grid-padding-x align-spaced"> <!-- Aligned to the space around -->
+  <div class="cell small-4">Aligned to</div>
+  <div class="cell small-4">the space around</div>
 </div>
 ```
 
-By default, all columns in a flex grid stretch to be equal height. This behavior can be changed with another set of alignment classes. That's right, middle alignment in CSS! Your options for vertical alignment are top, middle, bottom, and stretch. Note that we use the word middle for vertical alignment, and center for horizontal alignment. Applying a vertical alignment class to the flex row will affect every column directly inside it.
+Vertical alignment can be applied to a flex parent—which will align all the children automatically—or to a flex child, which will align only that element.
+
+Stretch alignment is the default. To set parent alignment, use these classes:
+
+`.align-top`
+`.align-middle`
+`.align-bottom`
+`.align-stretch`
 
 ```HTML
-<div class="row align-middle">
-  <div class="columns">I'm in the middle!</div>
-  <div class="columns">I am as well, but I have so much text I take up more space! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quis facere ducimus earum minus, inventore, ratione doloremque deserunt neque perspiciatis accusamus explicabo soluta, quod provident distinctio aliquam omnis? Labore, ullam possimus.</div>
+<div class="grid-x grid-padding-x align-top">
+  <div class="cell small-4">I'm at the top (default)</div>
+  <div class="cell small-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div>
+</div>
+<div class="grid-x grid-padding-x align-middle">
+  <div class="cell small-4">I'm in the middle</div>
+  <div class="cell small-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div>
+</div>
+<div class="grid-x grid-padding-x align-bottom">
+  <div class="cell small-4">I'm at the bottom</div>
+  <div class="cell small-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div>
+</div>
+<div class="grid-x grid-padding-x align-stretch">
+  <div class="cell small-4">These cells have the same height</div>
+  <div class="cell small-4">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, tempora. Impedit eius officia possimus laudantium? Molestiae eaque, sapiente atque doloremque placeat! In sint, fugiat saepe sunt dolore tempore amet cupiditate.</div>
 </div>
 ```
 
- Similar alignment classes can also be applied to individual columns, which use the format .align-self-* instead of .align-*.
+To align an individual child, use the below classes. They use the same alignment terms as the parent-level classes, but the classes start with `.align-self-` instead of `.align-`.
 
 ```HTML
-<div class="row">
-  <div class="column align-self-bottom">Align bottom</div>
-  <div class="column align-self-middle">Align middle</div>
-  <div class="column align-self-top">Align top</div>
-  <div class="column">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?</div>
+<div class="grid-x grid-padding-x">
+  <div class="cell small-3 align-self-bottom"><div class="demo">Align bottom</div></div>
+  <div class="cell small-3 align-self-middle"><div class="demo">Align middle</div></div>
+  <div class="cell small-3 align-self-stretch"><div class="demo">Align stretch</div></div>
+  <div class="cell small-3 align-self-top"><div class="demo">Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?</div></div>
 </div>
 ```
-Central alignment can be applied to a flex parent, which will centrally align all children horizontally and vertically automatically. To set this to your layout, simply use the class: .align-center-middle.
+Central alignment can be applied to a flex parent, which will centrally align all children horizontally and vertically automatically. To set this to your layout, simply use the class: `.align-center-middle`.
 
 ```HTML
-<div class="row align-center-middle" style="height: 200px;">
-  <div class="column small-4">I am in the center-middle</div>
-  <div class="column small-4">I am also centrally located</div>
+<div class="grid-x grid-padding-x align-center-middle text-center" style="height: 200px;">
+  <div class="cell small-4">I am in the center-middle</div>
+  <div class="cell small-4">I am also centrally located</div>
 </div>
 ```
 
-### Collapse/Uncollapse Rows ###
+### Collapse Cells ###
 
-The .collapse class lets you remove column gutters (padding).
+The `.[size]-[gutter-type]-collapse` class lets you remove cell gutters.
 
-There are times when you won't want each media query to be collapsed or uncollapsed. In this case, use the media query size you want and collapse or uncollapse and add that to your row element. Example shows no gutter at small media size and then adds the gutter to columns at medium. The .is-collapse-child class removes negative margins from nested row under collapsed parent.
+There are times when you won't want each media query to be collapsed. In this case, use the media query size you want and collapse and add that to your grid element. Example shows gutters at small and no gutters on medium and up.
 
 ```HTML
-<div class="row small-collapse medium-uncollapse">
-  <div class="small-6 columns">
-    Removes gutter at small media query and adds at medium.
+<div class="grid-x grid-margin-x medium-margin-collapse">
+  <div class="cell small-6">
+    Gutters at small no gutters at medium.
   </div>
-  <div class="small-6 columns">
-    Removes gutter at small media query and adds at medium.
+  <div class="cell small-6">
+    Gutters at small no gutters at medium.
   </div>
 </div>
 ```
 
 ### Offsets ###
-Offsets work identically to the float grid, by applying margin-left to a column.
+
+Offsets work by applying `margin-left` (or `margin-top` for a vertical grid) to a grid.
 
 ```HTML
-<div class="row">
-  <div class="small-4 large-offset-2 columns">Offset 2 on large</div>
-  <div class="small-4 columns">4 columns</div>
+<div class="grid-x grid-margin-x">
+  <div class="cell small-4 large-offset-2">Offset 2 on large</div>
+  <div class="cell small-4">4 cells</div>
 </div>
 ```
 
 ### Block Grids ###
 
-To define column widths at the row-level, instead of the individual column level, add the class .[size]-up-[n] to a row, where [n] is the number of columns to display per row, and [size] is the breakpoint at which to apply the effect.
+To define cell widths within a direction-level, instead of the individual cell level, add the class `.[size]-up-[n]` to a `grid-x` or `grid-y`, where `[n]` is the number of cells to display per direction, and `[size]` is the breakpoint at which to apply the effect.
 
 ```HTML
-<div class="row small-up-1 medium-up-2 large-up-3">
-  <div class="column">1 per row on small</div>
-  <div class="column">2 per row on medium</div>
-  <div class="column">3 per row on large</div>
+<div class="grid-x grid-padding-x small-up-2 medium-up-4 large-up-6">
+  <div class="cell">cell</div>
+  <div class="cell">cell</div>
+  <div class="cell">cell</div>
+  <div class="cell">cell</div>
 </div>
 ```
 
@@ -168,11 +211,11 @@ To define column widths at the row-level, instead of the individual column level
 Flexbox supports source ordering, making it easy to rearrange columns on different screen sizes without weird relative positioning tricks. Columns within a row will be sorted by their order property. Lower numbers are placed first. If multiple columns have the same number, they're sorted in the order they appear in the HTML. We have a set of classes that make it easy to setup source ordering in your HTML. They also come in responsive flavors, allowing you to reorder a grid on different screen sizes.
 
 ```HTML
-<div class="row">
-  <div class="column small-6 small-order-2 medium-order-1">
+<div class="grid-x grid-padding-x">
+  <div class="cell small-6 small-order-2 medium-order-1">
     This column will come second on small, and first on medium and larger.
   </div>
-  <div class="column small-6 small-order-1 medium-order-2">
+  <div class="cell small-6 small-order-1 medium-order-2">
     This column will come first on small, and second on medium and larger.
   </div>
 </div>
@@ -198,6 +241,19 @@ For children, there are 3 quick helper classes to apply the flex property. These
 * `.flex-child-auto` (auto size flex child)
 * `.flex-child-grow` (flex child that will grow to take up all possible space)
 * `.flex-child-shrink` (flex child that will shrink to minimum possible space)
+
+```HTML
+<div class="grid-x grid-padding-x">
+  <div class="cell small-4 flex-container flex-dir-column">
+    <div class="callout primary flex-child-auto">Auto</div>
+    <div class="callout primary flex-child-auto">Auto</div>
+    <div class="callout primary flex-child-shrink">Shrink</div>
+  </div>
+  <div class="cell small-4">
+  </div>
+  <div class="cell small-4 align-self-top">Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?Align top. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Non harum laborum cum voluptate vel, eius adipisci similique dignissimos nobis at excepturi incidunt fugit molestiae quaerat, consequuntur porro temporibus. Nisi, ex?</div>
+</div>
+```
 
 ### Show by Screen Size ###
 
@@ -382,4 +438,70 @@ Add a dropdown arrow to your button with the `.dropdown` class. This doesn't add
 <button class="dropdown button">Dropdown Button</button>
 <button class="dropdown button large">Dropdown Button</button>
 <button class="dropdown button expanded">Dropdown Button</button>
+```
+
+### Vertical Grids ###
+
+The XY grid also supports vertical grids. Simply apply `.grid-y` instead of `.grid-x`. The internal cells will shift automatically to provide spacing vertically rather than horizontally.
+
+You can also apply margin or padding with `.grid-margin-y` and `.grid-padding-y` to apply spacing to the top and bottom of cells.
+
+Please note for vertical grids to work, the grid needs a height. You can also use grid frame to create a 100 vertical height grid (or 100% height if nested).
+
+```HTML
+<div class="grid-y" style="height: 500px;">
+  <div class="cell small-6 medium-8 large-2">
+    6/8/2
+  </div>
+  <div class="cell small-6 medium-4 large-10">
+    6/4/10
+  </div>
+</div>
+```
+
+### Grid Frame ###
+
+The XY grid incorporates the grid frame from Foundation for Apps plus many other useful features. To start, add `.grid-frame` to the grid. This sets the grid to be 100vh (the full height of the browser window).
+
+Please note to use `.grid-margin-x` or `.grid-margin-y` with `.grid-frame` you need to hide the overflow on the body like so: `body {overflow: hidden;}`.
+
+```HTML
+<div class="grid-y medium-grid-frame">
+  <div class="cell shrink header medium-cell-block-container">
+    <h1>Grid Frame Header</h1>
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-4">
+        A medium 4 cell
+      </div>
+      <div class="cell medium-4 medium-cell-block">
+        <p style="width:80vw;">A medium 4 cell block... on medium this content should overflow and let you horizontally scroll across... one might use this for an array of options</p>
+      </div>
+      <div class="cell medium-4">
+        A medium 4 cell
+      </div>
+    </div>
+  </div>
+  <div class="cell medium-auto medium-cell-block-container">
+    <div class="grid-x grid-padding-x">
+      <div class="cell medium-4 medium-cell-block-y">
+        <h2>Independent scrolling sidebar</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+
+        <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+
+      </div>
+      <div class="cell medium-8 medium-cell-block-y">
+        <h2>Independent scrolling body</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer lacus odio, accumsan id ullamcorper eget, varius nec erat. Nulla facilisi. Donec dui felis, euismod nec finibus vitae, dapibus quis arcu. Maecenas tempor et ipsum quis venenatis. Ut posuere sed augue sit amet efficitur. Sed imperdiet, justo id tempus rhoncus, est est viverra turpis, non vulputate magna lectus et nisl. Pellentesque ultrices porttitor vehicula. Ut aliquet efficitur ligula, a consectetur felis. Proin tristique ut augue nec luctus. Curabitur a sapien pretium, auctor elit a, efficitur erat. Donec tincidunt dui vel velit bibendum euismod. Cras vitae nibh dui. Aliquam erat volutpat. Etiam sit amet arcu a erat efficitur facilisis. Ut viverra dapibus turpis, et ornare justo. Integer in dui cursus, dignissim tortor a, hendrerit risus.</p>
+        <p>Suspendisse pulvinar, massa iaculis feugiat lobortis, dolor sapien vestibulum nulla, vel cursus tellus leo in lorem. Aliquam eu placerat urna. Suspendisse sed viverra orci, ut mattis neque. Fusce non ultrices nisi. In sagittis varius mollis. Quisque dolor quam, consectetur eu lacinia ac, ullamcorper vel arcu. Nullam mattis imperdiet nulla sed ornare. Praesent tristique, est id eleifend vestibulum, neque nibh condimentum ex, nec lobortis purus justo a libero. Phasellus id ex ac nunc hendrerit hendrerit. Nullam urna ipsum, rutrum at fringilla vel, venenatis non purus. Maecenas egestas ex vitae venenatis molestie. Ut et odio egestas, accumsan neque et, viverra nisl. Sed faucibus nec nulla sed imperdiet. Fusce quis sem ac urna semper tempor a id elit. Nulla fringilla vitae sapien a vehicula.</p>
+        <p>Nullam vestibulum lorem nec lectus egestas, nec ullamcorper diam maximus. Maecenas condimentum, nibh at blandit semper, ex erat tempus magna, id maximus neque velit accumsan nibh. Aenean dignissim lorem eu nisl laoreet vestibulum. Vivamus efficitur et augue vitae tincidunt. Etiam et magna felis. Integer mattis, nisi aliquet scelerisque blandit, ex mi sodales ante, eget accumsan quam magna et ligula. Curabitur id tristique leo. Proin rutrum mi vitae enim rhoncus, at cursus neque eleifend. Integer ultrices volutpat tellus ac porta. Fusce sollicitudin venenatis lacinia. Fusce ante lorem, gravida semper varius non, pharetra non erat. Sed dapibus arcu turpis, ac sollicitudin nibh lacinia vel. Nullam at enim porta, luctus metus sit amet, rutrum odio. Cras tempor enim vel pellentesque sollicitudin. Maecenas ullamcorper, sem non accumsan volutpat, neque tortor pulvinar orci, ut ultrices ligula lorem ut risus.</p>
+        <p>Aliquam facilisis, nibh eget posuere suscipit, arcu sapien iaculis odio, in molestie dolor lectus vitae sem. Cras id nunc mollis mi rutrum dapibus. Quisque rutrum a augue at scelerisque. Praesent faucibus ac enim vitae gravida. Sed et sodales elit. Duis magna lectus, interdum sit amet metus a, sagittis varius magna. Proin nibh lectus, egestas a luctus ut, dapibus et enim. Curabitur fringilla ipsum vitae nunc imperdiet consectetur eget non neque. Suspendisse ultricies odio quis lorem vulputate, ac vulputate turpis feugiat. Maecenas posuere rhoncus orci, in ornare velit suscipit tempor. Curabitur pretium nisl id lorem placerat consequat. In quis quam eros. Nam mattis elit eu quam sagittis, in varius erat tempor.</p>
+        <p>Fusce felis magna, pellentesque eget mollis a, rutrum id eros. Curabitur auctor varius arcu a consequat. Phasellus quis pulvinar enim, eu ultricies justo. Pellentesque risus libero, dapibus at erat ultricies, gravida varius erat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Nulla tempus, justo ut laoreet mollis, nunc tellus convallis urna, vel pretium dui velit eget ligula. Aliquam semper sed nulla a molestie. Maecenas at egestas massa, vitae aliquam mi. Fusce nec sem egestas, pretium lacus non, tincidunt sapien. Sed tristique odio at ultricies vulputate. Integer et convallis augue, eu aliquam enim. Mauris ut faucibus diam. Donec vulputate nunc sed congue accumsan. Etiam lobortis nisi quis lacinia pharetra.</p>
+      </div>
+    </div>
+  </div>
+  <div class="cell shrink footer">
+    <h3>Here's my footer</h3>
+  </div>
+</div>
 ```

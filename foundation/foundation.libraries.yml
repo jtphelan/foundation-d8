@@ -3,6 +3,7 @@ global-styling:
   css:
     theme:
       css/foundation.css: {}
+      css/col-xl.css: {}
       css/app.css: {}
 base-addons:
   version: VERSION
@@ -19,12 +20,17 @@ base-addons:
   dependencies:
     - core/jquery
 font-awesome:
-  remote: https://fortawesome.github.io/Font-Awesome/
-  version: 4.7.0
+  remote: https://github.com/FortAwesome/Font-Awesome-Pro
+  version: 5.0.8
   license:
     name: MIT
-    url: https://fortawesome.github.io/Font-Awesome/license/
+    url: https://fontawesome.com/license
     gpl-compatible: true
-  css:
-    theme:
-      https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css: { type: external, minified: true }
+  js:
+    # fa/fa-brands.min.js: { attributes: { defer: true, async: true} } #291k
+    # fa/fa-light.min.js: { attributes: { defer: true, async: true} } #508k
+    # fa/fa-regular.min.js: { attributes: { defer: true, async: true} } #467k
+    fa/fa-solid.min.js: { attributes: { defer: true, async: true} } #401k
+    fa/fontawesome.min.js: {} #29k
+    # OR comment out all above and add everything
+    # fa/fontawesome-all.min.js: { attributes: { defer: true, async: true} } #1.7mb
